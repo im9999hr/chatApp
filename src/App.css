@@ -1,38 +1,98 @@
-.App {
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --custom-size: calc(10px + 2vmin);
+}
+
+.app {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app-logo {
+  height: var(--custom-size);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.app-header {
+  background-color: #58cbe7ea;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.title-header {
+  font-size: var(--custom-size);
+  line-height: var(--custom-size);
+  margin: 2vmin 0;
+  font-weight: bold;
+  color: white;
+  width: 90%;
+}
+
+.formContainer {
+  width: 50%;
+  border: 2px solid burlywood;
+  margin: var(--custom-size) auto;
+}
+
+.input {
+  width: 90%;
+  text-align: inherit;
+} 
+
+.button {
+  box-sizing: content-box;
+  width: 40%;
+  background-color: rgba(155, 151, 151, 0.582);
+  margin: 2vmin 0;
+}
+
+.main {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  min-height: 80vh;
+}
+
+section {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-basis: 66%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+aside {
+  flex-basis: 32%;
+  list-style-type: none;
+}
+
+
+.formForMessageInput {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 0 auto 40px;
+}
+
+.inputForMessageInput {
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid orangered;
+  flex-grow: 1;
+}
+
+.buttonForMessageSubmit {
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: orangered;
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  border: none;
+  border-radius: 8px;
+  margin-left: 10px;
 }
