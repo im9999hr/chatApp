@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import PropTypes from "prop-types";
 let enb = true;
 
-export default function EnterUsername({onUsernameSubmit, onUsernameCancel}) {
+export default function EnterUsername({onUsernameSubmit, onUsernameLeave}) {
   const [username, setUsername] = useState("");
 
   const handleUsernameChange = e => {
@@ -20,23 +20,24 @@ export default function EnterUsername({onUsernameSubmit, onUsernameCancel}) {
     }
   };
 
-  const handleCancel = () => {
-    onUsernameCancel();
+  const handleLeave = () => {
+    onUsernameLeave();
     enb = true;
   }
 
   return (
-    <form className="formContainer" onSubmit = {handleSubmit}>
-      <label> Unesi svoj nadimak za CHAT 
-        <input  className="input" type="text" placeholder="nadimak" value={username} onChange={handleUsernameChange}/>
-      </label> 
-      <input className ="button" type="submit" disabled = {!enb} value="PRIJAVA"/>
-      <input className ="button" type='button' disabled = {enb} value="ODJAVA" onClick={handleCancel}/>
-    </form>
+    <div className="formContainerEnterUsername">
+      <form onSubmit = {handleSubmit}>
+        <label htmlFor="nickname">Unesi svoj nadimak za CHAT</label> <br/>
+        <input className="inputClass" id="nickname" type="text" placeholder="nadimak" value={username} onChange={handleUsernameChange}/>
+        <input className ="buttonClass" type="submit" disabled = {!enb} value="PRIJAVA"/>
+        <input className ="buttonClass" type='button' disabled = {enb} value="ODJAVA" onClick={handleLeave}/>
+      </form>
+    </div>
   );
 }
 
 EnterUsername.propTypes = {
   onUsernameSubmit: PropTypes.func.isRequired,
-  onUsernameCancel: PropTypes.func.isRequired
+  onUsernameLeave: PropTypes.func.isRequired
 }

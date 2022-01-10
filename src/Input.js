@@ -18,7 +18,6 @@ class Input extends Component {
 
   render() {
     return (
-      <div>
         <form className="formForMessageInput" onSubmit={this.onSubmit}>
           <input className="inputForMessageInput"
             onChange={this.onChange}
@@ -29,7 +28,6 @@ class Input extends Component {
           />
           <input className ="buttonForMessageSubmit" type="submit" value="POŠALJI"/>
         </form>
-      </div>
     );
   }
 }

@@ -1,98 +1,147 @@
+/* START - common part for all elements in App.js and children*/
 * {
-  margin: 0;
   box-sizing: border-box;
-}
-
-:root {
   --custom-size: calc(10px + 2vmin);
 }
 
 .app {
   text-align: center;
 }
+/* END - common part for all elements in App.js and children*/
 
-.app-logo {
-  height: var(--custom-size);
+:focus {
+  outline: none;
 }
 
+/* START - <header> tag in App.js*/
 .app-header {
   background-color: #58cbe7ea;
   display: flex;
-  flex-direction: row;
   align-items: center;
+  height: 8vh;
 }
-
+.app-logo {
+  height: var(--custom-size);
+}
 .title-header {
   font-size: var(--custom-size);
-  line-height: var(--custom-size);
-  margin: 2vmin 0;
   font-weight: bold;
   color: white;
   width: 90%;
 }
+/* END - <header> tag in App.js*/
 
-.formContainer {
-  width: 50%;
-  border: 2px solid burlywood;
-  margin: var(--custom-size) auto;
+
+/* START - EnterUsername.js*/
+.formContainerEnterUsername {
+  width: 60%;
+  margin: auto;
+  border-radius: 5px;
+  background-color: #e8ecd6;
+  min-height: 8vh;
 }
-
-.input {
+.inputClass {
   width: 90%;
   text-align: inherit;
+  border: 1px solid rgb(48, 24, 16);
+  border-radius: 4px;
 } 
-
-.button {
-  box-sizing: content-box;
+.buttonClass {
   width: 40%;
   background-color: rgba(155, 151, 151, 0.582);
-  margin: 2vmin 0;
+  border-radius: 5px;
 }
+/* END - EnterUsername.js*/
 
-.main {
+
+/* START - ChatRoom.js*/
+.chatContainer { /*as flex parent contains tags <section> and <aside> as flex children*/
   display: flex;
   justify-content: space-between;
-  margin: auto;
-  min-height: 80vh;
 }
-
-section {
+/* START - <section> tag*/
+section { /*as flex parent contains Messages.js (.allMessages) and Input.js (.formForMessageInput) as flex children*/
   display: flex;
   flex-direction: column;
-  flex-basis: 66%;
-  flex-wrap: wrap;
+  flex-basis: 80%;
   justify-content: space-between;
-  align-content: space-between;
+  height: 84vh; /* 8vh already in .formContainer and .app-header (8+8+84=100)*/
 }
-
-aside {
-  flex-basis: 32%;
-  list-style-type: none;
+.allMessages {
+  padding: 20px 0;
+  max-width: 1000px;
+  width: 100%;
+  list-style: none;
+  margin: 0 auto;
+  overflow: auto; /*overflow works only for block elements with specified height (here defined in tag <section>*/
 }
-
+.oneMessage {
+  display: flex;
+  margin-top: 10px;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+.oneMessageAnyMember {
+  text-align: left;
+}
+.oneMessageCurrentMember {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+.avatar {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  margin: 0 10px;
+}
+.username {
+  font-size: 14px;
+  color: gray;
+  padding-bottom: 4px;
+}
+.textMessage {
+  padding: 10px;
+  max-width: 420px;
+  margin: 0;
+  border-radius: 6px;
+  color: white;
+}
+.oneMessageAnyMember .textMessage {
+  background-color: rgb(70, 128, 236);
+}
+.oneMessageCurrentMember .textMessage {
+  background-color: rgba(44, 33, 26, 0.822);
+  text-align: left;
+}
 
 .formForMessageInput {
   display: flex;
   width: 100%;
   justify-content: space-between;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto 40px;
 }
-
 .inputForMessageInput {
   padding: 5px;
   font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid orangered;
+  border-radius: 6px;
+  border: 1px solid rgb(199, 147, 130);
   flex-grow: 1;
 }
-
 .buttonForMessageSubmit {
   padding: 5px 10px;
   font-size: 16px;
-  background-color: orangered;
+  background-color: rgba(20, 13, 13, 0.58);
   color: white;
-  border: none;
-  border-radius: 8px;
+  border-radius: 7px;
   margin-left: 10px;
 }
+/* END - <section> tag*/
+
+/* START - <aside> tag*/
+aside {
+  flex-basis: 18%;
+}
+/* END - <aside> tag*/
+
+/* END - ChatRoom.js*/

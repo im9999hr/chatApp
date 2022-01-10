@@ -1,12 +1,13 @@
 import {Component} from "react";
 import React from "react";
+let uniqueId = 0;
 
 class Messages extends Component {
   render() {
     const {messages} = this.props;
     return (
-      <ul className="Messages-list">
-        {messages.map(m => this.renderMessage(m))}
+      <ul className="allMessages">
+        {messages.map(m =>this.renderMessage(m))}
       </ul>
     );
   }
@@ -14,20 +15,17 @@ class Messages extends Component {
   renderMessage(message) {
     const {member, txt} = message;
     const {currentMember} = this.props;
-    const messageFromMe = member.id === currentMember.id;
-    const className = messageFromMe ?
-      "Messages-message currentMember" : "Messages-message";
+    const messageFromCurrentMember = member.id === currentMember.id;
+    const className = messageFromCurrentMember ?
+      "oneMessage oneMessageCurrentMember" : "oneMessage oneMessageAnyMember";
     return (
-      <li className={className}>
-      <span
-        className="avatar"
-        style={{backgroundColor: member.clientData.color}}
-      />
-        <div className="Message-content">
+      <li key = {uniqueId++} className={className}>
+        <div className="avatar" style={{backgroundColor: member.clientData.color}}/>
+        <div>
           <div className="username">
             {member.clientData.username}
           </div>
-          <div className="text">{txt}</div>
+          <div className="textMessage">{txt}</div>
         </div>
       </li>
     );

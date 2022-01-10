@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import "./App.css";
 import EnterUsername from "./EnterUsername";
 import ChatRoom from "./ChatRoom";
@@ -10,12 +10,14 @@ let drone = {};
 possible to read in chatRoom.on('members'),
 even 'members' was correctly displayed in html part when rendering. Also function setMembers worked properly (checked in html when rendering).
 As a workaround it is used 'helpArray' variable that keep value contained in 'members' variable and 
-'helpArray' is possible to read and use (e.g. in chatRoom.on('members')) */
+'helpArray' is possible to read and use (e.g. in chatRoom.on('members')).
+Same is done for 'messages'i.e. 'helpMessages' is additionally created. */
+
 let helpArray, helpMessages = [];
 let currentMember = {};
 
 function randomColor() {
-  let x = Math.random() * 0xFFFFFFFF;
+  let x = Math.random() * 0xFFFFFF;
   let y = Math.floor(x);
   let c = "#" + y.toString(16);
   return c;
@@ -41,9 +43,6 @@ function App() {
         return console.error(error);
       }
       currentMember.id = drone.clientId;
-      console.log("Opening Scaledrone");
-      console.log("Scaledrone instanca (clientId): " + drone.clientId);
-      
     });
 
     drone.on('close', event => {
@@ -52,71 +51,65 @@ function App() {
     });
 
     const chatRoom = drone.subscribe("observable-ChatRoom"); 
-
-    // chatRoom.on('data', (text, memb)...
-    // 'memb' (can be any name here) attribute is the same type as 'data' property defined in drone = new window.Scaledrone
-    // here 'memb' defines sender of message, because 'data' event is triggered when message arrive from sender
-    // object structure of 'memb' is:
-    // {
-    //  id: "id from sender (same as drone.clientId from sender)",
-    //  clientData: {
-    //    username: "username from sender",
-    //    color: "color from sender"
-    //  }
-    // }
-    // 'text' (can be any name here) attribute is the same as 'message' property defined in drone.publish
+    
     chatRoom.on('data', (text, memb) => {
-      console.log("receiving data");
-      console.log(text);
-      console.log(memb);
       //const newMessages = [...messages];
       const newMessages = [...helpMessages];
-      newMessages.push({member: memb, txt: text}); //here is defined object structure for one message
+      newMessages.push({member: memb, txt: text}); //here is defined object structure for one message (used latter in Messages.js)
       helpMessages = [...newMessages];
       setMessages(newMessages);
+      const chatMessage = document.querySelector(".allMessages");
+	    chatMessage.scrollTop = chatMessage.scrollHeight; // to avoid manual scrolling when new message appear
     });
+    /* 
+    Explanation for chatRoom.on('data', (text, memb)...
+    - 'memb' (can be any name here) attribute is the same type as 'data' property defined in drone = new window.Scaledrone
+    - here 'memb' defines sender of message, because 'data' event is triggered when message arrive from sender
+    - object structure of 'memb' is:
+     {
+      id: "id from sender (same as drone.clientId from sender)",
+      clientData: {
+        username: "username from sender",
+        color: "color from sender"
+      }
+     }
+    - 'text' (can be any name here) attribute is the same as 'message' property defined in drone.publish
+    */
 
     chatRoom.on('members', m => {
-      console.log("all chat members: ");
-      console.log(m); //array of objects
+      //m is array of objects
       setMembers(m);
       helpArray = [...m];
-      //helpArray = m.map(obj => {return {...obj}});
-      console.log("members from state after all chat members retrived: ");
-      console.log(members);
+      //helpArray = m.map(obj => {return {...obj}}); (sometimes this way is necessary for array of objects, it is not working with [...obj])
      });
 
      chatRoom.on('member_join', m => {
-        console.log("new member who join: ");
-        console.log(m); //object
-        console.log("help array before join: ");
-        console.log(helpArray);
+        //m is object
         const newMembers = [...helpArray];
         newMembers.push(m);
         helpArray = [...newMembers];
-        console.log("new members after 1 member joined: ");
-        console.log(newMembers);
         setMembers(newMembers);
-        //console.log(members);
      });
 
      chatRoom.on('member_leave', m => {
-      console.log("member who disconnect: ");
-      console.log(m); //object
+      //m is object
       const newMembers = helpArray.filter(member => member.id !== m.id);
       helpArray = [...newMembers];
       setMembers(newMembers);
-      //console.log(members);
      });
 
   };
 
-  const handleUsernameCancel = () => {
+  const handleUsernameLeave = () => {
     setPage("");
+    setMembers([]);
+    setMessages([]);
+    helpMessages = [];
     drone.close();
   };
 
-  const sendMessage = txt => { 
+  const sendMessage = txt => {
+    if (txt === "") txt = " ";
     drone.publish({
       room: "observable-ChatRoom",
       message: txt //here also some object is possible to define, not only string as now (now same message will be received in 'data' event)
@@ -130,11 +123,8 @@ function App() {
         <div className="title-header">Chat aplikacija</div>
       </header>
       <main>
-        {console.log("ispis u renderu members i page:")}
-        {console.log(members)}
-        {console.log(page)}
-        <EnterUsername onUsernameSubmit = {handleUsernameSubmit} onUsernameCancel = {handleUsernameCancel}/>
-        {page===PageChatRoom && <ChatRoom currentMember = {currentMember} members = {members} messages = {messages} onSendMessage = {sendMessage}/>}
+        <EnterUsername onUsernameSubmit = {handleUsernameSubmit} onUsernameLeave = {handleUsernameLeave}/>
+        {page===PageChatRoom && <ChatRoom current = {currentMember} mmbs = {members} msgs = {messages} onSend = {sendMessage}/>}
       </main>
     </div>
   );
