@@ -2,8 +2,9 @@ import React from "react";
 import Messages from "./Messages";
 import Input from "./Input";
 import PropTypes from "prop-types";
+import Members from "./Members";
 
-export default class ChatRooms extends React.Component {
+export default class ChatRoom extends React.Component {
 
   render() {
     const {mmbs, current, msgs, onSend} = this.props;
@@ -19,13 +20,10 @@ export default class ChatRooms extends React.Component {
           />
         </section>
         <aside>
-          <ul>
-            {mmbs.map(member =>
-              <li key={member.id}>
-                {member.clientData.username}
-              </li>
-            )}
-          </ul>
+          <Members
+            members={mmbs}
+            currentMember={current}
+          />
         </aside>
       </div>
       
@@ -33,7 +31,7 @@ export default class ChatRooms extends React.Component {
   }
 }
 
-ChatRooms.propTypes = {
+ChatRoom.propTypes = {
   onSend: PropTypes.func.isRequired,
   current: PropTypes.object.isRequired,
   mmbs: PropTypes.arrayOf(PropTypes.object).isRequired,

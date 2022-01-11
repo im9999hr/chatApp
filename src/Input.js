@@ -18,15 +18,15 @@ class Input extends Component {
 
   render() {
     return (
-        <form className="formForMessageInput" onSubmit={this.onSubmit}>
-          <input className="inputForMessageInput"
+        <form className="formForMessage" onSubmit={this.onSubmit}>
+          <input className="inputForMessage"
             onChange={this.onChange}
             value={this.state.text}
             type="text"
             placeholder="Unesi svoju poruku i pritisni ENTER"
             autoFocus={true}
           />
-          <input className ="buttonForMessageSubmit" type="submit" value="POŠALJI"/>
+          <input className ="inputForSubmit" type="submit" value="POŠALJI"/>
         </form>
     );
   }

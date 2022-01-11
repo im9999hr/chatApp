@@ -23,6 +23,11 @@ function randomColor() {
   return c;
 }
 
+function scrollToDown (className) {
+  const chatMessage = document.querySelector("." + className);
+  chatMessage.scrollTop = chatMessage.scrollHeight; // to avoid manual scrolling when new message appear (works also for list of members when new member appear)
+}
+
 function App() {
   const [page, setPage] = useState("");
   const [members, setMembers] = useState([]);
@@ -45,11 +50,6 @@ function App() {
       currentMember.id = drone.clientId;
     });
 
-    drone.on('close', event => {
-      console.log("Closing Scaledrone");
-      console.log(event);
-    });
-
     const chatRoom = drone.subscribe("observable-ChatRoom"); 
     
     chatRoom.on('data', (text, memb) => {
@@ -58,8 +58,7 @@ function App() {
       newMessages.push({member: memb, txt: text}); //here is defined object structure for one message (used latter in Messages.js)
       helpMessages = [...newMessages];
       setMessages(newMessages);
-      const chatMessage = document.querySelector(".allMessages");
-	    chatMessage.scrollTop = chatMessage.scrollHeight; // to avoid manual scrolling when new message appear
+      scrollToDown("allMessages");
     });
     /* 
     Explanation for chatRoom.on('data', (text, memb)...
@@ -81,6 +80,7 @@ function App() {
       setMembers(m);
       helpArray = [...m];
       //helpArray = m.map(obj => {return {...obj}}); (sometimes this way is necessary for array of objects, it is not working with [...obj])
+      scrollToDown("allMembers");
      });
 
      chatRoom.on('member_join', m => {
@@ -89,6 +89,7 @@ function App() {
         newMembers.push(m);
         helpArray = [...newMembers];
         setMembers(newMembers);
+        scrollToDown("allMembers");
      });
 
      chatRoom.on('member_leave', m => {

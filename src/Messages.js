@@ -21,7 +21,7 @@ class Messages extends Component {
     return (
       <li key = {uniqueId++} className={className}>
         <div className="avatar" style={{backgroundColor: member.clientData.color}}/>
-        <div>
+        <div className="usernameMessage">
           <div className="username">
             {member.clientData.username}
           </div>

@@ -26,7 +26,7 @@ export default function EnterUsername({onUsernameSubmit, onUsernameLeave}) {
   }
 
   return (
-    <div className="formContainerEnterUsername">
+    <div className="containerEnterUsername">
       <form onSubmit = {handleSubmit}>
         <label htmlFor="nickname">Unesi svoj nadimak za CHAT</label> <br/>
         <input className="inputClass" id="nickname" type="text" placeholder="nadimak" value={username} onChange={handleUsernameChange}/>

@@ -33,7 +33,7 @@
 
 
 /* START - EnterUsername.js*/
-.formContainerEnterUsername {
+.containerEnterUsername {
   width: 60%;
   margin: auto;
   border-radius: 5px;
@@ -55,54 +55,57 @@
 
 
 /* START - ChatRoom.js*/
-.chatContainer { /*as flex parent contains tags <section> and <aside> as flex children*/
+.chatContainer { /* contains tags <section> and <aside> as flex children*/
   display: flex;
   justify-content: space-between;
+  height: 84vh; /* 8vh already in .app-header and .containerEnterUsername, so sum to be 100vh (8+8+84=100)*/
+  /* without height definition here overflow property would not work in .allMessages and .allMembers*/
 }
 /* START - <section> tag*/
-section { /*as flex parent contains Messages.js (.allMessages) and Input.js (.formForMessageInput) as flex children*/
+section { /* contains Messages.js (.allMessages) and Input.js (.formForMessageInput) as flex children*/
+  flex-basis: 76%;
   display: flex;
   flex-direction: column;
-  flex-basis: 80%;
-  justify-content: space-between;
-  height: 84vh; /* 8vh already in .formContainer and .app-header (8+8+84=100)*/
+  justify-content: space-between; 
 }
-.allMessages {
-  padding: 20px 0;
-  max-width: 1000px;
-  width: 100%;
+/* START - Messages.js*/
+.allMessages { /*ul*/
+  padding: 20px 0; /*otherwise padding-left of 40px is automatically added to unordered list*/
+  max-width: 1050px; /*same as for .formForMessage*/
+  width: 100%; /*100% from <section>, same as for .formForMessage*/
   list-style: none;
   margin: 0 auto;
-  overflow: auto; /*overflow works only for block elements with specified height (here defined in tag <section>*/
+  overflow: auto; /*overflow works only for block elements with specified height (here defined in .chatContainer) */
 }
-.oneMessage {
+.oneMessage { /*li*/
   display: flex;
   margin-top: 10px;
   word-break: break-all;
   white-space: pre-wrap;
 }
-.oneMessageAnyMember {
+.oneMessageAnyMember { /*li*/
   text-align: left;
 }
-.oneMessageCurrentMember {
+.oneMessageCurrentMember { /*li*/
   flex-direction: row-reverse;
   text-align: right;
 }
-.avatar {
+.avatar { /*li>div (1st)*/
   height: 35px;
-  width: 35px;
+  min-width: 35px;
   border-radius: 50%;
   margin: 0 10px;
 }
-.username {
+.usernameMessage { /*li>div (2nd)*/
+  max-width: 420px;
+}
+.username { /*li>div(2nd)>div(1st)*/
   font-size: 14px;
   color: gray;
   padding-bottom: 4px;
 }
-.textMessage {
+.textMessage { /*li>div(2nd)>div(2nd)*/
   padding: 10px;
-  max-width: 420px;
-  margin: 0;
   border-radius: 6px;
   color: white;
 }
@@ -113,22 +116,23 @@ section { /*as flex parent contains Messages.js (.allMessages) and Input.js (.fo
   background-color: rgba(44, 33, 26, 0.822);
   text-align: left;
 }
-
-.formForMessageInput {
+/* END - Messages.js*/
+/* START - Input.js*/
+.formForMessage {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
-  max-width: 1000px;
+  width: 100%; /*same as for .allMessages*/
+  max-width: 1050px; /*same as for .allMessages*/
   margin: 0 auto 40px;
+  /*justify-content would not have effect here, because flex-grow is used in .inputForMessage */
 }
-.inputForMessageInput {
+.inputForMessage {
   padding: 5px;
   font-size: 16px;
   border-radius: 6px;
   border: 1px solid rgb(199, 147, 130);
   flex-grow: 1;
 }
-.buttonForMessageSubmit {
+.inputForSubmit {
   padding: 5px 10px;
   font-size: 16px;
   background-color: rgba(20, 13, 13, 0.58);
@@ -136,12 +140,44 @@ section { /*as flex parent contains Messages.js (.allMessages) and Input.js (.fo
   border-radius: 7px;
   margin-left: 10px;
 }
+/* END - Input.js*/
 /* END - <section> tag*/
 
 /* START - <aside> tag*/
 aside {
-  flex-basis: 18%;
+  flex-basis: 22%;
+  display: flex; /*not really necessary (because contains only one child .allMembers), but overflow for scrollbar will not work in this child */
+}
+.allMembers { /*ul*/
+  padding: 20px 0; /*otherwise padding-left of 40px is automatically added to unordered list*/
+  max-width: 350px;
+  width: 100%;
+  list-style: none;
+  margin: 0 auto 40px; /* 40px is same as from .formForMessage in Input.js */
+  overflow: auto; /*overflow works only for block elements with specified height (here defined in .chatContainer) */
+}
+.oneMember { /*li*/
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+.currentMemberAvatar { /*li>div (1st)*/
+  height: 30px;
+  min-width: 30px;
+  border-radius: 50%;
+  margin: 0 10px;
+}
+.anyMemberAvatar { /*li>div (1st)*/
+  height: 20px;
+  min-width: 20px;
+  border-radius: 50%;
+  margin: 0 15px;
+}
+.usernameMember { /*li>div (2nd)*/
+  font-size: 18px;
+  color: gray;
 }
 /* END - <aside> tag*/
-
 /* END - ChatRoom.js*/
